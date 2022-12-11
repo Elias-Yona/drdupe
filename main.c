@@ -22,7 +22,9 @@ int main(int argc, char **argv)
     errno = 0;
     struct dirent *ent = readdir(dir);
     while (ent != NULL) {
-        printf("File: %s\n", ent->d_name);
+        if (ent->d_name[0] != '.') {
+            printf("File: %s\n", ent->d_name);
+        }
         ent = readdir(dir);
     }
 

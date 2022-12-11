@@ -74,9 +74,9 @@ void print_files_recursively(const char *dir_path)
         }
         ent = readdir(dir);
     }
-// size: %lld  : checksum: %u \n", dir->d_name, getFileSize(dir->d_name, file_checkSum(dir->d_name)));
+
     if (errno != 0) {
-        // fprintf(stderr, "ERROR: Could not read directory %s:%s", dir_path, strerror(errno));
+        fprintf(stderr, "ERROR: Could not read directory %s:%s", dir_path, strerror(errno));
         exit(1);
     }
 

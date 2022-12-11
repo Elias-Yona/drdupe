@@ -6,10 +6,25 @@
 #include <string.h>
 #include <errno.h>
 #include <dirent.h>
+#include <sys/stat.h>
+
 
 #define PATH_SEP "/"
 #define PATH_SEP_LEN (sizeof(PATH_SEP) - 1)
 
+long long int getFileSize(char *filename) {
+  // Use the stat function to get information about the file
+  struct stat st;
+  if (stat(filename, &st) != 0) {
+    printf("Error: unable to stat file %s\n", filename);
+    return 1;
+  }
+
+  // Print the size of the file
+  // printf("Size of %s: %lld bytes\n", filename, st.st_size);
+
+  return st.st_size;
+}
 
 char *join_path(const char *base, const char *file) 
 {
@@ -55,13 +70,13 @@ void print_files_recursively(const char *dir_path)
                 free(child_path);
             }
         } else {
-            printf("file: %s/%s/\n", dir_path, ent->d_name);
+            printf("file: %s/%s/ size: %lld  \n", dir_path, ent->d_name, getFileSize(ent->d_name));
         }
         ent = readdir(dir);
     }
-
+// size: %lld  : checksum: %u \n", dir->d_name, getFileSize(dir->d_name, file_checkSum(dir->d_name)));
     if (errno != 0) {
-        fprintf(stderr, "ERROR: Could not read directory %s:%s", dir_path, strerror(errno));
+        // fprintf(stderr, "ERROR: Could not read directory %s:%s", dir_path, strerror(errno));
         exit(1);
     }
 
